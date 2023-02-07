@@ -13,6 +13,22 @@ interface Rating {
   ratingDescription: string
 }
 
+const parseExerciseArguments = (args: Array<string>): Array<number> => {
+  if (args.length < 4) throw new Error("not enough arguments")
+
+  const argsNum = args.slice(2, args.length).map((item) => {
+    if (!isNaN(Number(item))) {
+      return Number(item)
+    } else {
+      throw new Error("All values should be numbers")
+    }
+  })
+
+  console.log(argsNum)
+
+  return argsNum
+}
+
 const computeRating = (average: number, target: number): Rating => {
   let timeShortage = target - average
 
@@ -66,4 +82,13 @@ const calculateExercises = (
   }
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try {
+  const args = parseExerciseArguments(process.argv)
+  console.log(calculateExercises(args.slice(1, args.length), args[0]))
+} catch (error: unknown) {
+  let errorMessage = "Something has gone wrong. "
+  if (error instanceof Error) {
+    errorMessage += "Error: " + error.message
+  }
+  console.log(errorMessage)
+}
