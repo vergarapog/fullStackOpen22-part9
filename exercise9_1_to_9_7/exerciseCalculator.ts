@@ -30,23 +30,55 @@ const parseExerciseArguments = (args: Array<string>): Array<number> => {
 }
 
 const computeRating = (average: number, target: number): Rating => {
-  let timeShortage = target - average
+  // let timeShortage = target - average
 
-  if (average > target) {
-    return {
-      rating: "3 (highest)",
-      ratingDescription: "nigg thats good ngl",
-    }
-  } else if (timeShortage > 0.01 && timeShortage < 0.9) {
-    return {
-      rating: "2 (middle)",
-      ratingDescription: "kulang ng 5-55 minutes per day",
-    }
-  } else if (timeShortage > 1) {
-    return {
-      rating: "1 (lowest)",
-      ratingDescription: "kulang ng more than one hour per day",
-    }
+  // if (average > target) {
+  //   return {
+  //     rating: "3 (highest)",
+  //     ratingDescription: "nigg thats good ngl",
+  //   }
+  // } else if (timeShortage > 0.01 && timeShortage < 0.9) {
+  //   return {
+  //     rating: "2 (middle)",
+  //     ratingDescription: "kulang ng 5-55 minutes per day",
+  //   }
+  // } else if (timeShortage > 1) {
+  //   return {
+  //     rating: "1 (lowest)",
+  //     ratingDescription: "kulang ng more than one hour per day",
+  //   }
+  // }
+
+  let timeShortage = target - average
+  let rating
+  let ratingDescription
+
+  switch (true) {
+    case average > target:
+      rating = "3 (highest)"
+      ratingDescription = "nigg thats good ngl"
+
+      break
+
+    case timeShortage > 0.01 && timeShortage < 0.9:
+      rating = "2 (middle)"
+      ratingDescription = "kulang ng 5-55 minutes per day"
+      break
+
+    case timeShortage > 1:
+      rating = "1 (lowest)"
+      ratingDescription = "kulang ng more than one hour per day"
+      break
+
+    default:
+      rating = "0 (unknown)"
+      ratingDescription = "No rating was computed"
+      break
+  }
+
+  return {
+    rating,
+    ratingDescription,
   }
 }
 
