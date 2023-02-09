@@ -1,9 +1,9 @@
-interface InputValues {
+interface BMIInputValues {
   value1: number
   value2: number
 }
 
-const parseBmiArguments = (args: Array<string>): InputValues => {
+const parseBmiArguments = (args: Array<string>): BMIInputValues => {
   if (args.length < 4) throw new Error("not enough arguments")
   if (args.length > 4) throw new Error("too much arguments")
 
@@ -19,24 +19,39 @@ const parseBmiArguments = (args: Array<string>): InputValues => {
 
 const calculateBMI = (height: number, weight: number): String => {
   let bmi: number = weight / ((height / 100) * (height / 100))
+  let bmiCategory
 
-  if (bmi < 16) {
-    return "Underweight (Severe thinness)"
-  } else if (bmi > 16 && bmi < 16.9) {
-    return "Underweight (Moderate thinness)"
-  } else if (bmi > 17 && bmi < 18.4) {
-    return "Underweight (Mild thinness)"
-  } else if (bmi > 18.5 && bmi < 24.9) {
-    return "Normal (healthy weight)"
-  } else if (bmi > 25 && bmi < 29.9) {
-    return "Overweight (Pre-obese)"
-  } else if (bmi > 30 && bmi < 34.9) {
-    return "Obese (Class I)"
-  } else if (bmi > 35 && bmi < 39.9) {
-    return "Obese (Class II)"
-  } else if (bmi > 40) {
-    return "Obese (Class III)"
+  switch (true) {
+    case bmi < 16:
+      bmiCategory = "Underweight (Severe thinness)"
+      break
+    case bmi >= 16 && bmi < 16.9:
+      bmiCategory = "Underweight (Moderate thinness)"
+      break
+    case bmi >= 17 && bmi < 18.4:
+      bmiCategory = "Underweight (Mild thinness)"
+      break
+    case bmi >= 18.5 && bmi < 24.9:
+      bmiCategory = "Normal (healthy weight)"
+      break
+    case bmi >= 25 && bmi < 29.9:
+      bmiCategory = "Overweight (Pre-obese)"
+      break
+    case bmi >= 30 && bmi < 34.9:
+      bmiCategory = "Obese (Class I)"
+      break
+    case bmi >= 35 && bmi < 39.9:
+      bmiCategory = "Obese (Class II)"
+      break
+    case bmi >= 40:
+      bmiCategory = "Obese (Class III)"
+      break
+
+    default:
+      bmiCategory = "Invalid input"
   }
+
+  return bmiCategory
 }
 
 try {
