@@ -48,7 +48,7 @@ const calculateBMI = (height: number, weight: number): String => {
       break
 
     default:
-      bmiCategory = "Invalid input"
+      throw new Error("Provided values were not numbers")
   }
 
   return bmiCategory
@@ -65,3 +65,5 @@ try {
   }
   console.log(errorMessage)
 }
+
+export default calculateBMI
