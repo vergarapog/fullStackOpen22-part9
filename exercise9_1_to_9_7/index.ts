@@ -1,6 +1,5 @@
 import express from "express"
 import calculateBMI from "./bmiCalculator"
-import _calculateBMI from "./bmiCalculator"
 const app = express()
 
 app.get("/", (req, res) => {
