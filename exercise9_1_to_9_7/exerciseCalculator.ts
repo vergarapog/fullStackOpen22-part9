@@ -13,21 +13,21 @@ interface Rating {
   ratingDescription: string;
 }
 
-const parseExerciseArguments = (args: Array<string>): Array<number> => {
-  if (args.length < 4) throw new Error("not enough arguments");
+// const parseExerciseArguments = (args: Array<string>): Array<number> => {
+//   if (args.length < 4) throw new Error("not enough arguments");
 
-  const argsNum = args.slice(2, args.length).map((item) => {
-    if (!isNaN(Number(item))) {
-      return Number(item);
-    } else {
-      throw new Error("All values should be numbers");
-    }
-  });
+//   const argsNum = args.slice(2, args.length).map((item) => {
+//     if (!isNaN(Number(item))) {
+//       return Number(item);
+//     } else {
+//       throw new Error("All values should be numbers");
+//     }
+//   });
 
-  console.log(argsNum);
+//   console.log(argsNum);
 
-  return argsNum;
-};
+//   return argsNum;
+// };
 
 const computeRating = (average: number, target: number): Rating => {
   // let timeShortage = target - average
@@ -103,10 +103,12 @@ const calculateExercises = (
 
   const { rating, ratingDescription } = computeRating(average, target);
 
+  const isSuccess = rating === "3 (highest)" ? true : false;
+
   return {
     periodLength: periodLength,
     trainingDays: trainingDays,
-    success: true,
+    success: isSuccess,
     rating: rating,
     ratingDescription: ratingDescription,
     target: target,
@@ -114,13 +116,15 @@ const calculateExercises = (
   };
 };
 
-try {
-  const args = parseExerciseArguments(process.argv);
-  console.log(calculateExercises(args.slice(1, args.length), args[0]));
-} catch (error: unknown) {
-  let errorMessage = "Something has gone wrong. ";
-  if (error instanceof Error) {
-    errorMessage += "Error: " + error.message;
-  }
-  console.log(errorMessage);
-}
+// try {
+//   const args = parseExerciseArguments(process.argv);
+//   console.log(calculateExercises(args.slice(1, args.length), args[0]));
+// } catch (error: unknown) {
+//   let errorMessage = "Something has gone wrong. ";
+//   if (error instanceof Error) {
+//     errorMessage += "Error: " + error.message;
+//   }
+//   console.log(errorMessage);
+// }
+
+export default calculateExercises;
