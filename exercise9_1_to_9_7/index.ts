@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 import express from "express";
 import calculateBMI from "./bmiCalculator";
 import calculateExercises from "./exerciseCalculator";
@@ -28,12 +29,32 @@ app.post("/exercises", (req, res) => {
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { daily_exercises, target } = req.body;
 
-  console.log(daily_exercises, target);
+  try {
+    const result = calculateExercises(
+      daily_exercises as Array<number>,
+      target as number
+    );
 
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const result = calculateExercises(daily_exercises, target);
+    return res.send(result);
+  } catch (error) {
+    let errorMessage = "An error has occured: ";
+    if (error instanceof Error) {
+      errorMessage += error.message;
+    }
+    console.log(errorMessage);
 
-  res.send(result);
+    if (error.message === "Parameters missing") {
+      return res.status(400).json({ error: "parameters missing" });
+    } else if (error.message === "Hours per day aren't an array of numbers") {
+      return res
+        .status(400)
+        .send({ error: "hours per day aren't an array of numbers" });
+    } else if (error.message === "Target is not a number") {
+      return res.status(400).json({ error: "malformatted parameters" });
+    } else {
+      return res.status(500).json({ error: "contact admin" });
+    }
+  }
 });
 
 const PORT = 3002;

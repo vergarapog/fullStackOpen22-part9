@@ -7,4 +7,41 @@ content-type: application/json
 }
 
 ###
-GET http://localhost:3003/api/blogs/6304930480de1508b01c6815
+//invalid daily_exercises array
+POST http://localhost:3002/exercises
+content-type: application/json
+
+{
+  "daily_exercises": [1, 0, 2, 0, 3, 0, "a"],
+  "target": 2.5
+}
+
+###
+//invalid target number
+POST http://localhost:3002/exercises
+content-type: application/json
+
+{
+  "daily_exercises": [1, 0, 2, 0, 3, 0, 2.5],
+  "target": "asd"
+}
+
+###
+//missing target params
+POST http://localhost:3002/exercises
+content-type: application/json
+
+{
+  "daily_exercises": [1, 0, 2, 0, 3, 0, 2.5]
+}
+
+
+###
+//missing daily_exercises array
+POST http://localhost:3002/exercises
+content-type: application/json
+
+{
+  "daily_exercises": [1, 0, 2, 0, 3, 0, 2.5],
+  "target": "asd"
+}

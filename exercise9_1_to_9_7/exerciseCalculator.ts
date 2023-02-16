@@ -83,12 +83,27 @@ const computeRating = (average: number, target: number): Rating => {
 };
 
 const calculateExercises = (
-  daysPerHour: Array<number>,
+  hoursPerDay: Array<number>,
   target: number
 ): Result => {
-  const periodLength = daysPerHour.length;
+  if (!hoursPerDay || !target) {
+    throw new Error("Parameters missing");
+  }
 
-  const trainingDays = daysPerHour.reduce((accu, curr) => {
+  if (
+    !Array.isArray(hoursPerDay) ||
+    !hoursPerDay.every((e) => typeof e === "number")
+  ) {
+    throw new Error("Hours per day aren't an array of numbers");
+  }
+
+  if (isNaN(target)) {
+    throw new Error("Target is not a number");
+  }
+
+  const periodLength = hoursPerDay.length;
+
+  const trainingDays = hoursPerDay.reduce((accu, curr) => {
     if (curr > 0) {
       return accu + 1;
     } else {
@@ -97,7 +112,7 @@ const calculateExercises = (
   }, 0);
 
   const average =
-    daysPerHour.reduce((accu, curr) => {
+    hoursPerDay.reduce((accu, curr) => {
       return accu + curr;
     }, 0) / periodLength;
 
