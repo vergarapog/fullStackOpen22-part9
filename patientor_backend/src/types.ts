@@ -4,6 +4,8 @@ export interface DiagnoseEntry {
   latin?: string;
 }
 
+export type NewPatientEntry = Omit<PatientEntry, "id">;
+
 export interface PatientEntry {
   id: string;
   name: string;

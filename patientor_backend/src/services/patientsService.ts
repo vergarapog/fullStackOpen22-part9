@@ -1,5 +1,7 @@
 import patientEntries from "../../data/patientEntries";
-import { PatientEntry, PatientNoSSN } from "../types";
+import { NewPatientEntry, PatientEntry, PatientNoSSN } from "../types";
+import { v1 as uuid1 } from "uuid";
+import { parseUUID } from "../utils";
 
 const getPatients = (): PatientEntry[] => {
   return patientEntries;
@@ -17,7 +19,20 @@ const getPatientsNoSSN = (): PatientNoSSN[] => {
   });
 };
 
+const addPatient = (entry: NewPatientEntry): PatientEntry => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+  const id = parseUUID(uuid1());
+
+  const newPatient = {
+    id,
+    ...entry,
+  };
+  patientEntries.push(newPatient);
+  return newPatient;
+};
+
 export default {
   getPatients,
   getPatientsNoSSN,
+  addPatient,
 };
