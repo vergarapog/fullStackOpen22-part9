@@ -8,3 +8,15 @@ content-type: application/json
 "gender": "ok",
 "occupation": "good stuf"
 }
+
+###
+POST http://localhost:3001/api/patients
+content-type: application/json
+
+{
+"name": "2017-05-11",
+"dateOfBirth": "asd",
+"ssn": "123123",
+"gender": "ok",
+"occupation": "good stuf"
+}

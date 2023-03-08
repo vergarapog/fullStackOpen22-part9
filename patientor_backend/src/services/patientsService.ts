@@ -20,7 +20,6 @@ const getPatientsNoSSN = (): PatientNoSSN[] => {
 };
 
 const addPatient = (entry: NewPatientEntry): PatientEntry => {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const id = parseUUID(uuid1());
 
   const newPatient = {
