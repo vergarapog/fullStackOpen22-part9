@@ -1,4 +1,4 @@
-import { NewPatientEntry } from "./types";
+import { NewPatientEntry, Gender } from "./types";
 
 export const toNewPatientEntry = (object: unknown): NewPatientEntry => {
   if (!object || typeof object !== "object") {
@@ -25,8 +25,12 @@ export const toNewPatientEntry = (object: unknown): NewPatientEntry => {
   throw new Error("Incorrect data: some fields are missing");
 };
 
+const isString = (text: unknown): text is string => {
+  return typeof text === "string";
+};
+
 const parseName = (name: unknown): string => {
-  if (!isString(name)) {
+  if (name === "" || !isString(name)) {
     throw new Error("Invalid or missing name: " + name);
   }
   return name;
@@ -47,21 +51,23 @@ const parseSSN = (ssn: unknown): string => {
 };
 
 const parseGender = (gender: unknown): string => {
-  if (!isString(gender)) {
+  if (gender === "" || !isString(gender) || !isGender(gender)) {
     throw new Error("Invalid or missing gender: " + gender);
   }
   return gender;
 };
 
+const isGender = (param: string): param is Gender => {
+  return Object.values(Gender)
+    .map((v) => v.toString())
+    .includes(param);
+};
+
 const parseOccupation = (occupation: unknown): string => {
-  if (!isString(occupation)) {
+  if (occupation === "" || !isString(occupation)) {
     throw new Error("Invalid or missing occupation: " + occupation);
   }
   return occupation;
-};
-
-const isString = (text: unknown): text is string => {
-  return typeof text === "string";
 };
 
 export const parseUUID = (uuid: unknown): string => {
