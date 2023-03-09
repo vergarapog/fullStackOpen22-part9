@@ -14,8 +14,11 @@ router.post("/", (req, res) => {
     const addedEntry = patientsService.addPatient(newPatientEntry);
     return res.send(addedEntry);
   } catch (error) {
-    console.log(error);
-    return res.status(400).send();
+    let errorMessage = "Something went wrong. ";
+    if (error instanceof Error) {
+      errorMessage += "Error: " + error.message;
+    }
+    return res.status(400).send(errorMessage);
   }
 });
 

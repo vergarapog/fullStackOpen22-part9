@@ -31,28 +31,28 @@ const isString = (text: unknown): text is string => {
 
 const parseName = (name: unknown): string => {
   if (name === "" || !isString(name)) {
-    throw new Error("Invalid or missing name: " + name);
+    throw new Error("Invalid or missing name " + name);
   }
   return name;
 };
 
 const parseDateOfBirth = (dateOfBirth: unknown): string => {
   if (!isString(dateOfBirth)) {
-    throw new Error("Invalid or missing dateOfBirth: " + dateOfBirth);
+    throw new Error("Invalid or missing dateOfBirth " + dateOfBirth);
   }
   return dateOfBirth;
 };
 
 const parseSSN = (ssn: unknown): string => {
   if (!isString(ssn)) {
-    throw new Error("Invalid or missing ssn: " + ssn);
+    throw new Error("Invalid or missing ssn " + ssn);
   }
   return ssn;
 };
 
 const parseGender = (gender: unknown): string => {
   if (gender === "" || !isString(gender) || !isGender(gender)) {
-    throw new Error("Invalid or missing gender: " + gender);
+    throw new Error("Invalid or missing gender " + gender);
   }
   return gender;
 };
@@ -65,7 +65,7 @@ const isGender = (param: string): param is Gender => {
 
 const parseOccupation = (occupation: unknown): string => {
   if (occupation === "" || !isString(occupation)) {
-    throw new Error("Invalid or missing occupation: " + occupation);
+    throw new Error("Invalid or missing occupation " + occupation);
   }
   return occupation;
 };
