@@ -1,14 +1,17 @@
 import { getAllDiaries } from "../services/diaryService";
 import { useState, useEffect } from "react";
-import { Diaries } from "../types";
+import { Diary } from "../types";
 
 const AllDiaryEntries = () => {
-  const [diaries, setDiaries] = useState<Diaries[]>([]);
+  const [diaries, setDiaries] = useState<Diary[]>([]);
 
   useEffect(() => {
     getAllDiaries().then((data) => setDiaries(data));
-    console.log(diaries);
   }, []);
+
+  if (diaries.length === 0) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div>
