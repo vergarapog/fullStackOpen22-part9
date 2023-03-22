@@ -19,7 +19,7 @@ const AllDiaryEntries = (props: AllDiaryEntriesProps) => {
             <li key={diary.id}>
               <h3 className="font-bold text-xl mb-3">{diary.date}</h3>
               <p>visibility: {diary.visibility}</p>
-              <p>weather: {diary.visibility}</p>
+              <p>weather: {diary.weather}</p>
             </li>
           );
         })}

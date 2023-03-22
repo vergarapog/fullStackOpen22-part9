@@ -9,4 +9,5 @@ export interface NewDiary {
   date: string;
   weather: string;
   visibility: string;
+  comment: string;
 }
