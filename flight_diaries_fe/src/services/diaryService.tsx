@@ -9,8 +9,16 @@ const getAllDiaries = async () => {
 };
 
 const addDiary = async (obj: NewDiary) => {
-  const res = await axios.post<Diary[]>(baseUrl, obj);
-  return res.data;
+  try {
+    const res = await axios.post<Diary>(baseUrl, obj);
+    return res.data;
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      throw error;
+    } else {
+      throw error;
+    }
+  }
 };
 
 export { getAllDiaries, addDiary };
