@@ -36,9 +36,13 @@ const parseName = (name: unknown): string => {
   return name;
 };
 
+const isDate = (date: string): boolean => {
+  return Boolean(Date.parse(date));
+};
+
 const parseDateOfBirth = (dateOfBirth: unknown): string => {
-  if (!isString(dateOfBirth)) {
-    throw new Error("Invalid or missing dateOfBirth " + dateOfBirth);
+  if (!isString(dateOfBirth) || !isDate(dateOfBirth)) {
+    throw new Error("Invalid or missing date " + dateOfBirth);
   }
   return dateOfBirth;
 };
