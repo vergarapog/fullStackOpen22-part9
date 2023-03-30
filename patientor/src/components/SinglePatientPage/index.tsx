@@ -1,5 +1,7 @@
 import { Patient } from "../../types";
 
+import { Male, Female } from "@mui/icons-material";
+
 interface SinglePatientPageProps {
   singlePatient: Patient | null;
 }
@@ -7,7 +9,10 @@ interface SinglePatientPageProps {
 const SinglePatientPage = ({ singlePatient }: SinglePatientPageProps) => {
   return singlePatient ? (
     <div>
-      <h1>{singlePatient.name}</h1>
+      <div>
+        <h1>{singlePatient.name}</h1>
+        <div>{singlePatient.gender === "male" ? <Male /> : <Female />}</div>
+      </div>
       <p>ssn: {singlePatient.ssn}</p>
       <p>occupation: {singlePatient.occupation}</p>
     </div>
