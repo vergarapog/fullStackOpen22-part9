@@ -16,7 +16,7 @@ router.get("/:id", (req, res) => {
   if (!patient) {
     return res.status(404).json(`Patient with id: ${id} not found`);
   }
-  return res.send(patient);
+  return res.status(200).json(patient);
 });
 
 router.post("/", (req, res) => {

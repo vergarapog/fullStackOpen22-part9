@@ -54,17 +54,17 @@ const parseSSN = (ssn: unknown): string => {
   return ssn;
 };
 
-const parseGender = (gender: unknown): string => {
-  if (gender === "" || !isString(gender) || !isGender(gender)) {
-    throw new Error("Invalid or missing gender " + gender);
-  }
-  return gender;
-};
-
 const isGender = (param: string): param is Gender => {
   return Object.values(Gender)
     .map((v) => v.toString())
     .includes(param);
+};
+
+const parseGender = (gender: unknown): Gender => {
+  if (gender === "" || !isString(gender) || !isGender(gender)) {
+    throw new Error("Invalid or missing gender " + gender);
+  }
+  return gender;
 };
 
 const parseOccupation = (occupation: unknown): string => {
