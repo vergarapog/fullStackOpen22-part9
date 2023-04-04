@@ -1,12 +1,16 @@
-import { Patient } from "../../types";
+import { Diagnose, Patient } from "../../types";
 
 import { Male, Female } from "@mui/icons-material";
 
 interface SinglePatientPageProps {
   singlePatient: Patient | null;
+  diagnoses: Diagnose[];
 }
 
-const SinglePatientPage = ({ singlePatient }: SinglePatientPageProps) => {
+const SinglePatientPage = ({
+  singlePatient,
+  diagnoses,
+}: SinglePatientPageProps) => {
   const { name, gender, ssn, occupation, entries } = singlePatient || {};
 
   return singlePatient ? (
@@ -20,14 +24,21 @@ const SinglePatientPage = ({ singlePatient }: SinglePatientPageProps) => {
 
       {entries && entries.length ? (
         <div>
-          <h1>entries</h1>
+          <h3>entries</h3>
           {entries.map((entry) => {
             return (
-              <div>
+              <div key={entry.id}>
                 {entry.date} {entry.description}
                 <ul>
                   {entry.diagnosisCodes?.map((diagnosisCode) => {
-                    return <li>{diagnosisCode}</li>;
+                    const diagnoseObj = diagnoses.find((diagnose) =>
+                      diagnose.code === diagnosisCode ? diagnose : undefined
+                    );
+                    return (
+                      <li key={diagnosisCode}>
+                        {diagnosisCode} {diagnoseObj?.name}{" "}
+                      </li>
+                    );
                   })}
                 </ul>
               </div>
