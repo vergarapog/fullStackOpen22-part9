@@ -1,4 +1,9 @@
-import { NewPatientEntry, Gender } from "./types";
+import {
+  NewPatientEntry,
+  Gender,
+  LogEntryWithoutId,
+  HealthCheckRating,
+} from "./types";
 
 export const toNewPatientEntry = (object: unknown): NewPatientEntry => {
   if (!object || typeof object !== "object") {
@@ -80,4 +85,144 @@ export const parseUUID = (uuid: unknown): string => {
   }
 
   return uuid;
+};
+
+export const toNewPatientLogEntry = (object: unknown): LogEntryWithoutId => {
+  if (!object || typeof object !== "object") {
+    throw new Error("Incorrect or missing data");
+  }
+
+  if (!("type" in object)) {
+    throw new Error("Type of Log Entry missing");
+  }
+
+  switch (object.type) {
+    case "Hospital":
+      if (
+        "description" in object &&
+        "date" in object &&
+        "specialist" in object &&
+        "type" in object &&
+        "discharge" in object
+      ) {
+        const newLogEntry: LogEntryWithoutId = {
+          description: parseDescription(object.description),
+          date: parseDate(object.date),
+          specialist: parseSpecialist(object.specialist),
+          type: object.type,
+          discharge: parseDischarge(object.discharge),
+        };
+        return newLogEntry;
+      }
+      break;
+    case "OccupationalHealthcare":
+      if (
+        "description" in object &&
+        "date" in object &&
+        "specialist" in object &&
+        "type" in object &&
+        "employerName" in object
+      ) {
+        const newLogEntry: LogEntryWithoutId = {
+          description: parseDescription(object.description),
+          date: parseDate(object.date),
+          specialist: parseSpecialist(object.specialist),
+          type: object.type,
+          employerName: parseEmployerName(object.employerName),
+        };
+        return newLogEntry;
+      }
+      break;
+    case "HealthCheck":
+      if (
+        "description" in object &&
+        "date" in object &&
+        "specialist" in object &&
+        "type" in object &&
+        "healthCheckRating" in object
+      ) {
+        const newLogEntry: LogEntryWithoutId = {
+          description: parseDescription(object.description),
+          date: parseDate(object.date),
+          specialist: parseSpecialist(object.specialist),
+          type: object.type,
+          healthCheckRating: parseHealthCheckRating(object.healthCheckRating),
+        };
+        return newLogEntry;
+      }
+      break;
+    default:
+      throw new Error("Invalid Log Entry type");
+  }
+
+  throw new Error("Incorrect data: some fields are missing");
+};
+
+const parseDescription = (description: unknown): string => {
+  if (!isString(description)) {
+    throw new Error("Invalid or missing description " + description);
+  }
+  return description;
+};
+
+const parseDate = (date: unknown): string => {
+  if (!isString(date)) {
+    throw new Error("Invalid or missing date " + date);
+  }
+  return date;
+};
+
+const parseSpecialist = (specialist: unknown): string => {
+  if (!isString(specialist)) {
+    throw new Error("Invalid or missing specialist " + specialist);
+  }
+  return specialist;
+};
+
+const parseEmployerName = (employerName: unknown): string => {
+  if (!isString(employerName)) {
+    throw new Error("Invalid or missing employerName " + employerName);
+  }
+  return employerName;
+};
+
+const parseDischarge = (
+  discharge: unknown
+): { date: string; criteria: string } => {
+  if (!discharge || typeof discharge !== "object") {
+    throw new Error("Incorrect or missing data");
+  }
+
+  if ("date" in discharge && "criteria" in discharge) {
+    if (!isString(discharge.date) || !isString(discharge.criteria)) {
+      throw new Error(
+        "Invalid or missing  properties of discharge: " + discharge
+      );
+    }
+    return { date: discharge.date, criteria: discharge.criteria };
+  }
+
+  throw new Error("Incorrect discharge object: some fields are missing");
+};
+
+const isHealthCheckRating = (param: number): param is HealthCheckRating => {
+  return Object.values(HealthCheckRating)
+    .map((v) => Number(v))
+    .includes(param);
+};
+
+const parseHealthCheckRating = (
+  healthCheckRating: unknown
+): HealthCheckRating => {
+  if (
+    healthCheckRating === "" ||
+    !isString(healthCheckRating) ||
+    !isHealthCheckRating(Number(healthCheckRating))
+  ) {
+    throw new Error(
+      "Invalid or missing healthCheckRating " + healthCheckRating
+    );
+  }
+
+  return Number(healthCheckRating);
 };

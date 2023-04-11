@@ -1,5 +1,7 @@
 import patientEntries from "../../data/patientEntries";
 import {
+  Entry,
+  LogEntryWithoutId,
   NewPatientEntry,
   NonSensitivePatient,
   Patient,
@@ -51,9 +53,25 @@ const addPatient = (entry: NewPatientEntry): Patient => {
   return newPatient;
 };
 
+const addPatientLogEntry = (logEntry: LogEntryWithoutId, id: string): Entry => {
+  const logId = parseUUID(uuid1());
+
+  const patient = patientEntries.find((p) => p.id === id);
+
+  const newPatientLogEntry = {
+    id: logId,
+    ...logEntry,
+  };
+
+  patient?.entries.push(newPatientLogEntry);
+
+  return newPatientLogEntry;
+};
+
 export default {
   getPatients,
   getPatientsNoSSN,
   getPatientsNonSensitive,
   addPatient,
+  addPatientLogEntry,
 };

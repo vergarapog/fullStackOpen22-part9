@@ -6,8 +6,6 @@ export interface Diagnose {
 
 export type NewPatientEntry = Omit<Patient, "id" | "entries">;
 
-export type Entry = HospitalEntry | OccupationalHealthEntry | HealthCheckEntry;
-
 export interface Patient {
   id: string;
   name: string;
@@ -34,6 +32,15 @@ export enum HealthCheckRating {
   "HighRisk" = 2,
   "CriticalRisk" = 3,
 }
+
+// Define special omit for unions
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown
+  ? Omit<T, K>
+  : never;
+// Define Entry without the 'id' property
+export type LogEntryWithoutId = UnionOmit<Entry, "id">;
+
+export type Entry = HospitalEntry | OccupationalHealthEntry | HealthCheckEntry;
 
 export interface BaseEntry {
   id: string;

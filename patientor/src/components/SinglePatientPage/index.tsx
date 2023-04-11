@@ -9,7 +9,7 @@ import {
   VerifiedUser,
 } from "@mui/icons-material";
 import { assertNever } from "../../helpers";
-import { green, orange, yellow, red, teal } from "@mui/material/colors";
+import { green, orange, yellow, red } from "@mui/material/colors";
 
 interface SinglePatientPageProps {
   singlePatient: Patient | null;
@@ -80,7 +80,7 @@ const EntryDetails: React.FC<{ entry: Entry; diagnoses: Diagnose[] }> = ({
         <>
           <div>
             <p>
-              {entry.date} {renderTypeIcon(entry.type)}
+              {entry.date} {renderTypeIcon(entry.type)} ({entry.type})
             </p>
           </div>
           <div>{entry.description}</div>
@@ -93,7 +93,8 @@ const EntryDetails: React.FC<{ entry: Entry; diagnoses: Diagnose[] }> = ({
         <>
           <div>
             <p>
-              {entry.date} {renderTypeIcon(entry.type)} {entry.employerName}
+              {entry.date} {renderTypeIcon(entry.type)} ({entry.type}){" "}
+              {entry.employerName}
             </p>
           </div>
           <div>{entry.description}</div>
@@ -106,7 +107,7 @@ const EntryDetails: React.FC<{ entry: Entry; diagnoses: Diagnose[] }> = ({
         <>
           <div>
             <p>
-              {entry.date} {renderTypeIcon(entry.type)}
+              {entry.date} {renderTypeIcon(entry.type)} ({entry.type})
             </p>
           </div>
           <div>{entry.description}</div>
