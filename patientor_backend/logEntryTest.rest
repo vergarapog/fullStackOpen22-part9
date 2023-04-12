@@ -1,0 +1,38 @@
+###
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+content-type: application/json
+
+{
+  "date": "2016-05-14",
+  "type": "Hospital",
+  "specialist": "Dr. Johnson",
+  "diagnosisCodes": [
+    "M25.5"
+  ],
+  "description": "Patient has a broken arm and needs a cast.",
+  "discharge": {
+    "date": "2016-05-28",
+    "criteria": "Patient's arm has healed and cast has been removed."
+  }
+}
+
+###
+//Note that this data would fail the error checking as it is missing both the type and specialist fields.
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+content-type: application/json
+
+
+
+{
+  "date": "2021-04-11",
+  "diagnosisCodes": [
+    "I10"
+  ],
+  "description": "Patient has high blood pressure and needs medication.",
+  "discharge": {
+    "date": "2021-04-15",
+    "criteria": "Patient's blood pressure has been stabilized."
+  }
+}
+
+

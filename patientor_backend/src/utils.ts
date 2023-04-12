@@ -3,6 +3,7 @@ import {
   Gender,
   LogEntryWithoutId,
   HealthCheckRating,
+  Diagnose,
 } from "./types";
 
 export const toNewPatientEntry = (object: unknown): NewPatientEntry => {
@@ -106,10 +107,11 @@ export const toNewPatientLogEntry = (object: unknown): LogEntryWithoutId => {
         "discharge" in object
       ) {
         const newLogEntry: LogEntryWithoutId = {
-          description: parseDescription(object.description),
           date: parseDate(object.date),
-          specialist: parseSpecialist(object.specialist),
           type: object.type,
+          specialist: parseSpecialist(object.specialist),
+          diagnosisCodes: parseDiagnosisCodes(object),
+          description: parseDescription(object.description),
           discharge: parseDischarge(object.discharge),
         };
         return newLogEntry;
@@ -124,11 +126,13 @@ export const toNewPatientLogEntry = (object: unknown): LogEntryWithoutId => {
         "employerName" in object
       ) {
         const newLogEntry: LogEntryWithoutId = {
-          description: parseDescription(object.description),
           date: parseDate(object.date),
-          specialist: parseSpecialist(object.specialist),
           type: object.type,
+          specialist: parseSpecialist(object.specialist),
           employerName: parseEmployerName(object.employerName),
+          diagnosisCodes: parseDiagnosisCodes(object),
+          description: parseDescription(object.description),
+          sickLeave: parseSickLeave(object),
         };
         return newLogEntry;
       }
@@ -142,10 +146,11 @@ export const toNewPatientLogEntry = (object: unknown): LogEntryWithoutId => {
         "healthCheckRating" in object
       ) {
         const newLogEntry: LogEntryWithoutId = {
-          description: parseDescription(object.description),
           date: parseDate(object.date),
           specialist: parseSpecialist(object.specialist),
           type: object.type,
+          description: parseDescription(object.description),
+          diagnosisCodes: parseDiagnosisCodes(object),
           healthCheckRating: parseHealthCheckRating(object.healthCheckRating),
         };
         return newLogEntry;
@@ -203,6 +208,59 @@ const parseDischarge = (
   }
 
   throw new Error("Incorrect discharge object: some fields are missing");
+};
+
+const parseDiagnosisCodes = (object: unknown): Array<Diagnose["code"]> => {
+  if (!object || typeof object !== "object" || !("diagnosisCodes" in object)) {
+    // we will just trust the data to be in correct form
+    return [] as Array<Diagnose["code"]>;
+  }
+
+  return object.diagnosisCodes as Array<Diagnose["code"]>;
+};
+
+// const parseSickLeave = (
+//   sickLeave: unknown
+// ): { startDate: string; endDate: string } | undefined => {
+//   if (!sickLeave || typeof sickLeave !== "object") {
+//     throw new Error("Incorrect or missing data");
+//   }
+
+//   if ("startDate" in sickLeave && "endDate" in sickLeave) {
+//     if (!isString(sickLeave.startDate) || !isString(sickLeave.endDate)) {
+//       throw new Error(
+//         "Invalid or missing  properties of sickLeave: " + sickLeave
+//       );
+//     }
+//     return { startDate: sickLeave.startDate, endDate: sickLeave.endDate };
+//   }
+
+//   throw new Error("Incorrect sickLeave object: some fields are missing");
+// };
+
+const parseSickLeave = (
+  logEntry: unknown
+): { startDate: string; endDate: string } | undefined => {
+  if (!logEntry || typeof logEntry !== "object") {
+    throw new Error("Incorrect or missing data");
+  } // narrows logEntry type from unknown into object
+
+  if ("sickLeave" in logEntry) {
+    const { sickLeave } = logEntry;
+    if (!sickLeave || typeof sickLeave !== "object") {
+      throw new Error("Incorrect or missing data");
+    } // narrows logEntry.sickLeave property from unknown into object so we can access startDate and endDate
+
+    if ("startDate" in sickLeave && "endDate" in sickLeave) {
+      if (!isString(sickLeave.startDate) || !isString(sickLeave.endDate)) {
+        throw new Error(
+          "Invalid or missing  properties of sickLeave: " + sickLeave
+        );
+      }
+      return { startDate: sickLeave.startDate, endDate: sickLeave.endDate };
+    }
+  }
+  return undefined;
 };
 
 const isHealthCheckRating = (param: number): param is HealthCheckRating => {
