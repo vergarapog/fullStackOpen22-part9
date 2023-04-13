@@ -1,4 +1,5 @@
 ###
+//Correct entry, same format with diff values as existing one for John McClane aka 1st in patients array
 POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
 content-type: application/json
 
@@ -15,6 +16,25 @@ content-type: application/json
     "criteria": "Patient's arm has healed and cast has been removed."
   }
 }
+
+###
+//Without diagnosis codes
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+content-type: application/json
+
+{
+  "date": "2019-11-25",
+  "type": "Hospital",
+  "specialist": "Dr. Smith",
+  "description": "Patient needs a routine check-up.",
+  "discharge": {
+    "date": "2019-11-25",
+    "criteria": "Patient is in good health."
+  }
+}
+
+
+
 
 ###
 //Note that this data would fail the error checking as it is missing both the type and specialist fields.

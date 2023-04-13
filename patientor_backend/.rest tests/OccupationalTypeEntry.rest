@@ -1,0 +1,65 @@
+###
+//Correct entry, same format with diff values as existing one for Martin Riggs. Entry goes to John Mcclane
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+content-type: application/json
+
+{
+  "date": "2022-03-15",
+  "type": "OccupationalHealthcare",
+  "specialist": "Dr. Lee",
+  "employerName": "ABC Corp",
+  "diagnosisCodes": [
+    "A01.1",
+    "B18.2",
+    "K21.9"
+  ],
+  "description": "Patient developed food poisoning after eating contaminated food at the company cafeteria.",
+  "sickLeave": {
+    "startDate": "2022-03-15",
+    "endDate": "2022-03-22"
+  }
+}
+
+
+###
+//Without diagnosis codes
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+content-type: application/json
+
+{
+  "date": "2022-03-15",
+  "type": "OccupationalHealthcare",
+  "specialist": "Dr. Lee",
+  "employerName": "ABC Corp",
+  "description": "Patient developed food poisoning after eating contaminated food at the company cafeteria.",
+  "sickLeave": {
+    "startDate": "2022-03-15",
+    "endDate": "2022-03-22"
+  }
+}
+
+
+###
+//without sickleave
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+content-type: application/json
+
+{
+  "date": "2021-06-18",
+  "type": "OccupationalHealthcare",
+  "specialist": "Dr. Nguyen",
+  "employerName": "XYZ Corp",
+  "diagnosisCodes": [
+    "F41.9",
+    "R10.4"
+  ],
+  "description": "Patient reported experiencing stress and abdominal pain due to work-related pressures."
+}
+
+
+
+
+
+
+
+
