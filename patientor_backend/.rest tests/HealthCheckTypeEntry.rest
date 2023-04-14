@@ -1,0 +1,46 @@
+###
+//Correct entry, same format with diff values as existing one for Dana Scully
+POST http://localhost:3001/api/patients/d2773822-f723-11e9-8f0b-362b9e155667/entries
+content-type: application/json
+
+{
+"id": "b99a1d57-6482-4a05-b12e-17b50e8d30a8",
+"date": "2020-05-10",
+"specialist": "Dr. Smith",
+"type": "HealthCheck",
+"description": "Routine checkup. Blood pressure slightly elevated.",
+"healthCheckRating": 1
+}
+
+###
+//Another correct entry
+POST http://localhost:3001/api/patients/d2773822-f723-11e9-8f0b-362b9e155667/entries
+content-type: application/json
+
+{
+"id": "3b4c4b4c-a344-4d1c-b2aa-0dd1f57d2732",
+"date": "2021-02-15",
+"specialist": "Dr. Johnson",
+"type": "HealthCheck",
+"description": "Follow-up after surgery. Incision healing well.",
+"healthCheckRating": 2
+}
+
+
+
+
+###
+//Note that this data would fail the error checking as it is missing specialist field
+POST http://localhost:3001/api/patients/d2773822-f723-11e9-8f0b-362b9e155667/entries
+content-type: application/json
+
+{
+  "id": "e78b2495-d7b8-4e81-871e-9406f17e7c8a",
+  "date": "2022-01-05",
+  "type": "HealthCheck",
+  "description": "Annual physical. All test results within normal range.",
+  "healthCheckRating": 0
+}
+
+
+

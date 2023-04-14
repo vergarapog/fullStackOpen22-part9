@@ -160,7 +160,9 @@ export const toNewPatientLogEntry = (object: unknown): LogEntryWithoutId => {
       throw new Error("Invalid Log Entry type");
   }
 
-  throw new Error("Incorrect data: some fields are missing");
+  throw new Error(
+    "Incorrect data: some fields are missing for type: " + object.type
+  );
 };
 
 const parseDescription = (description: unknown): string => {
