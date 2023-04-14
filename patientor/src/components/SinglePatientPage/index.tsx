@@ -10,6 +10,7 @@ import {
 } from "@mui/icons-material";
 import { assertNever } from "../../helpers";
 import { green, orange, yellow, red } from "@mui/material/colors";
+import CreateEntryButton from "./CreateEntryButton";
 
 interface SinglePatientPageProps {
   singlePatient: Patient | null;
@@ -34,6 +35,9 @@ const SinglePatientPage = ({
       {entries && entries.length ? (
         <div>
           <h3 className="text-xl py-6">entries</h3>
+          <div className="">
+            <CreateEntryButton onCreateEntry={() => {}} />
+          </div>
           {entries.map((entry) => {
             return (
               <div key={entry.id} className="p-4 border">
