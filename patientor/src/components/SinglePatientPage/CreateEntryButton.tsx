@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import HospitalEntry from "./HospitalEntry";
+import OccupationalEntry from "./OccupationalEntry";
 
 type Props = {
   onCreateEntry: (entryType: string) => void;
@@ -6,6 +8,7 @@ type Props = {
 
 const CreateEntryButton: React.FC<Props> = ({ onCreateEntry }) => {
   const [showSubButtons, setShowSubButtons] = useState(false);
+  const [entryType, setEntryType] = useState<"string" | null>(null);
 
   const handleMouseEnter = () => {
     setShowSubButtons(true);
@@ -22,20 +25,19 @@ const CreateEntryButton: React.FC<Props> = ({ onCreateEntry }) => {
 
   return (
     <div className={`relative transition-all `}>
-      <div
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-        className=" w-max"
-      >
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      <div onMouseLeave={handleMouseLeave} className="w-max ">
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-2 rounded "
+          onMouseEnter={handleMouseEnter}
+        >
           Create Entry
         </button>
 
         <div
-          className={`transition-all bg-gray-400  ${
+          className={`transition-all bg-gray-400 mb-4  ${
             showSubButtons
               ? "opacity-100 translate-y-2 translate-x-1 p-2 rounded"
-              : "opacity-0 "
+              : "opacity-0 h-0 invisible"
           }`}
         >
           <button

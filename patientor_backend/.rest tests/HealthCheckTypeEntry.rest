@@ -9,7 +9,7 @@ content-type: application/json
 "specialist": "Dr. Smith",
 "type": "HealthCheck",
 "description": "Routine checkup. Blood pressure slightly elevated.",
-"healthCheckRating": 1
+"healthCheckRating": "1"
 }
 
 ###
@@ -23,7 +23,7 @@ content-type: application/json
 "specialist": "Dr. Johnson",
 "type": "HealthCheck",
 "description": "Follow-up after surgery. Incision healing well.",
-"healthCheckRating": 2
+"healthCheckRating": "2"
 }
 
 
@@ -39,7 +39,7 @@ content-type: application/json
   "date": "2022-01-05",
   "type": "HealthCheck",
   "description": "Annual physical. All test results within normal range.",
-  "healthCheckRating": 0
+  "healthCheckRating": "0"
 }
 
 
