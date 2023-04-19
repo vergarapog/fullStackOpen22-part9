@@ -34,10 +34,13 @@ const SinglePatientPage = ({
 
       {entries && entries.length ? (
         <div>
-          <h3 className="text-xl py-6">entries</h3>
           <div className="">
             <CreateEntryButton onCreateEntry={() => {}} />
           </div>
+          <h3 className="text-2xl text-white bg-black rounded my-3 p-2 text-center">
+            Entries
+          </h3>
+
           {entries.map((entry) => {
             return (
               <div key={entry.id} className="p-4 border">

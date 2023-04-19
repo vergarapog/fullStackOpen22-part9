@@ -1,14 +1,17 @@
 import React, { useState } from "react";
-import HospitalEntry from "./HospitalEntry";
-import OccupationalEntry from "./OccupationalEntry";
+import HealthCheckEntryForm from "./HealthCheckEntryForm";
+import HospitalEntryForm from "./HospitalEntryForm";
+import OccupationalEntryForm from "./OccupationalEntryForm";
 
 type Props = {
-  onCreateEntry: (entryType: string) => void;
+  onCreateEntry: (entryType: EntryType) => void;
 };
+
+type EntryType = "Hospital" | "OccupationalHealthcare" | "HealthCheck" | null;
 
 const CreateEntryButton: React.FC<Props> = ({ onCreateEntry }) => {
   const [showSubButtons, setShowSubButtons] = useState(false);
-  const [entryType, setEntryType] = useState<"string" | null>(null);
+  const [entryType, setEntryType] = useState<EntryType>(null);
 
   const handleMouseEnter = () => {
     setShowSubButtons(true);
@@ -18,25 +21,33 @@ const CreateEntryButton: React.FC<Props> = ({ onCreateEntry }) => {
     setShowSubButtons(false);
   };
 
-  const handleSubButtonClick = (entryType: string) => {
+  const handleSubButtonClick = (entryType: EntryType) => {
     onCreateEntry(entryType);
+    setEntryType(entryType);
     setShowSubButtons(false);
   };
 
   return (
     <div className={`relative transition-all `}>
-      <div onMouseLeave={handleMouseLeave} className="w-max ">
+      <div
+        onMouseLeave={handleMouseLeave}
+        className={`w-max my-3 ${
+          showSubButtons ? "bg-gray-200 rounded-lg" : ""
+        }`}
+      >
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-2 rounded "
+          className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-2 rounded ${
+            showSubButtons ? "text-center" : ""
+          }`}
           onMouseEnter={handleMouseEnter}
         >
           Create Entry
         </button>
 
         <div
-          className={`transition-all bg-gray-400 mb-4  ${
+          className={`transition-all bg-gray-100 mb-4  ${
             showSubButtons
-              ? "opacity-100 translate-y-2 translate-x-1 p-2 rounded"
+              ? "opacity-100 translate-y-1  rounded"
               : "opacity-0 h-0 invisible"
           }`}
         >
@@ -60,7 +71,36 @@ const CreateEntryButton: React.FC<Props> = ({ onCreateEntry }) => {
           </button>
         </div>
       </div>
+      {entryType === "Hospital" && <HospitalEntryForm />}
+      {entryType === "OccupationalHealthcare" && <OccupationalEntryForm />}
+      {entryType === "HealthCheck" && <HealthCheckEntryForm />}
+      <CancelButton entryType={entryType} setEntryType={setEntryType} />
     </div>
+  );
+};
+
+type CancelButtonProps = {
+  entryType: EntryType;
+  setEntryType: React.Dispatch<React.SetStateAction<EntryType>>;
+};
+
+const CancelButton: React.FC<CancelButtonProps> = ({
+  entryType,
+  setEntryType,
+}) => {
+  return (
+    <>
+      {entryType !== null ? (
+        <button
+          onClick={() => setEntryType(null)}
+          className="bg-red-500 py-1 px-2 rounded text-white font-semibold tracking-wide"
+        >
+          Cancel
+        </button>
+      ) : (
+        <></>
+      )}
+    </>
   );
 };
 
