@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-interface FormValues {
+interface HealthCheckFormValues {
   description: string;
   date: string;
   specialist: string;
@@ -8,7 +8,7 @@ interface FormValues {
   diagnosisCodes: string[];
 }
 
-const initialValues: FormValues = {
+const initialValues: HealthCheckFormValues = {
   description: "",
   date: "",
   specialist: "",
@@ -16,8 +16,12 @@ const initialValues: FormValues = {
   diagnosisCodes: [],
 };
 
-const HealthCheckEntryForm = () => {
-  const [values, setValues] = useState<FormValues>(initialValues);
+interface Props {
+  children: React.ReactNode;
+}
+
+const HealthCheckEntryForm = ({ children }: Props) => {
+  const [values, setValues] = useState<HealthCheckFormValues>(initialValues);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -110,6 +114,13 @@ const HealthCheckEntryForm = () => {
             onChange={handleChange}
             className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           />
+        </div>
+
+        <div className="space-x-2">
+          {children}
+          <button className="px-2 py-1 bg-blue-500 text-white rounded">
+            Submit
+          </button>
         </div>
       </form>
     </div>

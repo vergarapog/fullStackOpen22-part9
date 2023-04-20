@@ -71,10 +71,21 @@ const CreateEntryButton: React.FC<Props> = ({ onCreateEntry }) => {
           </button>
         </div>
       </div>
-      {entryType === "Hospital" && <HospitalEntryForm />}
-      {entryType === "OccupationalHealthcare" && <OccupationalEntryForm />}
-      {entryType === "HealthCheck" && <HealthCheckEntryForm />}
-      <CancelButton entryType={entryType} setEntryType={setEntryType} />
+      {entryType === "Hospital" && (
+        <HospitalEntryForm>
+          <CancelButton entryType={entryType} setEntryType={setEntryType} />
+        </HospitalEntryForm>
+      )}
+      {entryType === "OccupationalHealthcare" && (
+        <OccupationalEntryForm>
+          <CancelButton entryType={entryType} setEntryType={setEntryType} />
+        </OccupationalEntryForm>
+      )}
+      {entryType === "HealthCheck" && (
+        <HealthCheckEntryForm>
+          <CancelButton entryType={entryType} setEntryType={setEntryType} />
+        </HealthCheckEntryForm>
+      )}
     </div>
   );
 };
@@ -93,7 +104,7 @@ const CancelButton: React.FC<CancelButtonProps> = ({
       {entryType !== null ? (
         <button
           onClick={() => setEntryType(null)}
-          className="bg-red-500 py-1 px-2 rounded text-white font-semibold tracking-wide"
+          className="bg-red-500 py-1 px-2 rounded text-white tracking-wide"
         >
           Cancel
         </button>
