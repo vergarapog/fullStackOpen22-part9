@@ -21,7 +21,7 @@ const SinglePatientPage = ({
   singlePatient,
   diagnoses,
 }: SinglePatientPageProps) => {
-  const { name, gender, ssn, occupation, entries } = singlePatient || {};
+  const { id, name, gender, ssn, occupation, entries } = singlePatient || {};
 
   return singlePatient ? (
     <div>
@@ -35,7 +35,7 @@ const SinglePatientPage = ({
       {entries && entries.length ? (
         <div>
           <div className="">
-            <CreateEntryButton onCreateEntry={() => {}} />
+            <CreateEntryButton id={id} />
           </div>
           <h3 className="text-2xl text-white bg-black rounded my-3 p-2 text-center">
             Entries

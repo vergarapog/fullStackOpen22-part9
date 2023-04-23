@@ -1,9 +1,7 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Route, Link, Routes, useMatch } from "react-router-dom";
 import { Button, Divider, Container, Typography } from "@mui/material";
 
-import { apiBaseUrl } from "./constants";
 import { Diagnose, Patient } from "./types";
 
 import patientService from "./services/patients";

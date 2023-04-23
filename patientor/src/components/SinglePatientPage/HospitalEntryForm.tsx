@@ -1,12 +1,6 @@
 import { useState } from "react";
 
-interface HospitalFormValues {
-  description: string;
-  date: string;
-  specialist: string;
-  diagnosisCodes: string[];
-  discharge: { date: string; criteria: string };
-}
+import { HospitalFormValues } from "../../types";
 
 const initialValues: HospitalFormValues = {
   description: "",
@@ -14,13 +8,17 @@ const initialValues: HospitalFormValues = {
   specialist: "",
   diagnosisCodes: [],
   discharge: { date: "", criteria: "" },
+  type: "Hospital",
 };
 
 interface Props {
+  handleSubmit: (
+    newEntry: HospitalFormValues
+  ) => Promise<"sss, remove later" | undefined>;
   children: React.ReactNode;
 }
 
-const HospitalEntryForm = ({ children }: Props) => {
+const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
   const [values, setValues] = useState<HospitalFormValues>(initialValues);
 
   const handleChange = (
@@ -35,20 +33,24 @@ const HospitalEntryForm = ({ children }: Props) => {
         ...values,
         discharge: { ...values.discharge, criteria: value },
       });
+    } else if (name === "diagnosisCodes") {
+      const diagnosisCodesArray = value.split(",");
+      setValues({ ...values, diagnosisCodes: diagnosisCodesArray });
     } else {
       setValues({ ...values, [name]: value });
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    handleSubmit(values);
     console.log(values); // do something with form values
   };
 
   return (
     <div className="border p-4">
       <h2 className="my-2 text-2xl font-semibold">New Hospital Entry</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmitForm}>
         <div className="mb-4">
           <label
             htmlFor="description"

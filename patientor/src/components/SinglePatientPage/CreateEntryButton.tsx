@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import HealthCheckEntryForm from "./HealthCheckEntryForm";
 import HospitalEntryForm from "./HospitalEntryForm";
 import OccupationalEntryForm from "./OccupationalEntryForm";
+import patientService from "../../services/patients";
+import { HospitalFormValues } from "../../types";
 
 type Props = {
-  onCreateEntry: (entryType: EntryType) => void;
+  id: string | undefined;
 };
 
 type EntryType = "Hospital" | "OccupationalHealthcare" | "HealthCheck" | null;
 
-const CreateEntryButton: React.FC<Props> = ({ onCreateEntry }) => {
+const CreateEntryButton: React.FC<Props> = ({ id }) => {
   const [showSubButtons, setShowSubButtons] = useState(false);
   const [entryType, setEntryType] = useState<EntryType>(null);
 
@@ -22,9 +24,17 @@ const CreateEntryButton: React.FC<Props> = ({ onCreateEntry }) => {
   };
 
   const handleSubButtonClick = (entryType: EntryType) => {
-    onCreateEntry(entryType);
     setEntryType(entryType);
     setShowSubButtons(false);
+  };
+
+  const handleSubmit = async (newEntry: HospitalFormValues) => {
+    if (id === undefined) {
+      return "sss, remove later";
+    } else {
+      const addedEntry = await patientService.addPatientLogEntry(newEntry, id);
+      console.log(addedEntry + "added");
+    }
   };
 
   return (
@@ -32,14 +42,14 @@ const CreateEntryButton: React.FC<Props> = ({ onCreateEntry }) => {
       <div
         onMouseLeave={handleMouseLeave}
         className={`w-max my-3 ${
-          showSubButtons ? "bg-gray-200 rounded-lg" : ""
+          showSubButtons ? "bg-gray-100 rounded-lg pr-5 pt-2 pb-2  shadow" : ""
         }`}
       >
         <button
           className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 my-2 rounded ${
             showSubButtons ? "text-center" : ""
           }`}
-          onMouseEnter={handleMouseEnter}
+          onClick={handleMouseEnter}
         >
           Create Entry
         </button>
@@ -72,7 +82,7 @@ const CreateEntryButton: React.FC<Props> = ({ onCreateEntry }) => {
         </div>
       </div>
       {entryType === "Hospital" && (
-        <HospitalEntryForm>
+        <HospitalEntryForm handleSubmit={handleSubmit}>
           <CancelButton entryType={entryType} setEntryType={setEntryType} />
         </HospitalEntryForm>
       )}
