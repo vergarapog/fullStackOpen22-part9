@@ -24,7 +24,7 @@ const SinglePatientPage = ({
   const { id, name, gender, ssn, occupation, entries } = singlePatient || {};
 
   return singlePatient ? (
-    <div>
+    <div className="pb-6">
       <div>
         <h1 className="text-3xl">{name}</h1>
         <div>{gender === "male" ? <Male /> : <Female />}</div>

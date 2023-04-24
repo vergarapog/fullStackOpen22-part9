@@ -113,6 +113,7 @@ const CancelButton: React.FC<CancelButtonProps> = ({
     <>
       {entryType !== null ? (
         <button
+          type="button"
           onClick={() => setEntryType(null)}
           className="bg-red-500 py-1 px-2 rounded text-white tracking-wide"
         >

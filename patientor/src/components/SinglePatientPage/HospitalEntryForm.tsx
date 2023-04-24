@@ -148,7 +148,10 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
 
         <div className="space-x-2">
           {children}
-          <button className="px-2 py-1 bg-blue-500 text-white rounded">
+          <button
+            className="px-2 py-1 bg-blue-500 text-white rounded"
+            type="submit"
+          >
             Submit
           </button>
         </div>
