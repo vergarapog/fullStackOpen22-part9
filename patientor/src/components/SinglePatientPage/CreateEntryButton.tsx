@@ -3,15 +3,19 @@ import HealthCheckEntryForm from "./HealthCheckEntryForm";
 import HospitalEntryForm from "./HospitalEntryForm";
 import OccupationalEntryForm from "./OccupationalEntryForm";
 import patientService from "../../services/patients";
-import { HospitalFormValues } from "../../types";
+import { HospitalFormValues, Patient } from "../../types";
+import { useGlobalContext } from "../../context";
+import { updateBindingElement } from "typescript";
 
 type Props = {
-  id: string | undefined;
+  singlePatient: Patient | undefined;
 };
 
 type EntryType = "Hospital" | "OccupationalHealthcare" | "HealthCheck" | null;
 
-const CreateEntryButton: React.FC<Props> = ({ id }) => {
+const CreateEntryButton: React.FC<Props> = ({ singlePatient }) => {
+  const { patients, setPatients } = useGlobalContext();
+
   const [showSubButtons, setShowSubButtons] = useState(false);
   const [entryType, setEntryType] = useState<EntryType>(null);
 
@@ -29,12 +33,27 @@ const CreateEntryButton: React.FC<Props> = ({ id }) => {
   };
 
   const handleSubmit = async (newEntry: HospitalFormValues) => {
-    if (id === undefined) {
-      return "sss, remove later";
-    } else {
-      const addedEntry = await patientService.addPatientLogEntry(newEntry, id);
-      console.log(addedEntry + "added");
+    const { id } = singlePatient as Patient;
+    const addedEntry = await patientService.addPatientLogEntry(newEntry, id);
+
+    if (singlePatient) {
+      const updatedEntries = singlePatient?.entries.concat(addedEntry);
+
+      const patientWithNewEntry: Patient = {
+        ...singlePatient,
+        entries: updatedEntries,
+      };
+
+      setPatients(
+        patients.map((p) => {
+          return p.id === id ? patientWithNewEntry : p;
+        })
+      );
     }
+
+    setEntryType(null);
+
+    console.log(addedEntry + "added");
   };
 
   return (

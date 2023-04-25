@@ -12,9 +12,7 @@ const initialValues: HospitalFormValues = {
 };
 
 interface Props {
-  handleSubmit: (
-    newEntry: HospitalFormValues
-  ) => Promise<"sss, remove later" | undefined>;
+  handleSubmit: (newEntry: HospitalFormValues) => Promise<void>;
   children: React.ReactNode;
 }
 

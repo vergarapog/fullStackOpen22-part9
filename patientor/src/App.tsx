@@ -13,8 +13,8 @@ const App = () => {
   const singlePatient = patientMatch
     ? patients.find((u) => {
         return u.id === patientMatch.params.id;
-      }) || null
-    : null;
+      })
+    : undefined;
 
   return (
     <div className="App">

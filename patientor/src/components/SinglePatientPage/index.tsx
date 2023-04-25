@@ -13,7 +13,7 @@ import { green, orange, yellow, red } from "@mui/material/colors";
 import CreateEntryButton from "./CreateEntryButton";
 
 interface SinglePatientPageProps {
-  singlePatient: Patient | null;
+  singlePatient: Patient | undefined;
   diagnoses: Diagnose[];
 }
 
@@ -35,7 +35,7 @@ const SinglePatientPage = ({
       {entries && entries.length ? (
         <div>
           <div className="">
-            <CreateEntryButton id={id} />
+            <CreateEntryButton singlePatient={singlePatient} />
           </div>
           <h3 className="text-2xl text-white bg-black rounded my-3 p-2 text-center">
             Entries
