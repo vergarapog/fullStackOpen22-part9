@@ -5,7 +5,7 @@ import OccupationalEntryForm from "./OccupationalEntryForm";
 import patientService from "../../services/patients";
 import { HospitalFormValues, Patient } from "../../types";
 import { useGlobalContext } from "../../context";
-import { updateBindingElement } from "typescript";
+import axios from "axios";
 
 type Props = {
   singlePatient: Patient | undefined;
@@ -14,7 +14,7 @@ type Props = {
 type EntryType = "Hospital" | "OccupationalHealthcare" | "HealthCheck" | null;
 
 const CreateEntryButton: React.FC<Props> = ({ singlePatient }) => {
-  const { patients, setPatients } = useGlobalContext();
+  const { patients, setPatients, setErrorMessage } = useGlobalContext();
 
   const [showSubButtons, setShowSubButtons] = useState(false);
   const [entryType, setEntryType] = useState<EntryType>(null);
@@ -33,27 +33,45 @@ const CreateEntryButton: React.FC<Props> = ({ singlePatient }) => {
   };
 
   const handleSubmit = async (newEntry: HospitalFormValues) => {
-    const { id } = singlePatient as Patient;
-    const addedEntry = await patientService.addPatientLogEntry(newEntry, id);
+    try {
+      const { id } = singlePatient as Patient;
+      const addedEntry = await patientService.addPatientLogEntry(newEntry, id);
 
-    if (singlePatient) {
-      const updatedEntries = singlePatient?.entries.concat(addedEntry);
+      if (singlePatient) {
+        const updatedEntries = singlePatient?.entries.concat(addedEntry);
 
-      const patientWithNewEntry: Patient = {
-        ...singlePatient,
-        entries: updatedEntries,
-      };
+        const patientWithNewEntry: Patient = {
+          ...singlePatient,
+          entries: updatedEntries,
+        };
 
-      setPatients(
-        patients.map((p) => {
-          return p.id === id ? patientWithNewEntry : p;
-        })
-      );
+        setPatients(
+          patients.map((p) => {
+            return p.id === id ? patientWithNewEntry : p;
+          })
+        );
+      }
+
+      setEntryType(null);
+
+      console.log(addedEntry + "added");
+    } catch (e: unknown) {
+      if (axios.isAxiosError(e)) {
+        if (e?.response?.data && typeof e?.response?.data === "string") {
+          const message = e.response.data.replace(
+            "Something went wrong. Error: ",
+            ""
+          );
+          console.error(message);
+          setErrorMessage(message);
+        } else {
+          setErrorMessage("Unrecognized axios error");
+        }
+      } else {
+        console.error("Unknown error", e);
+        setErrorMessage("Unknown error");
+      }
     }
-
-    setEntryType(null);
-
-    console.log(addedEntry + "added");
   };
 
   return (

@@ -6,9 +6,11 @@ import diagnoseService from "./services/diagnoses";
 
 interface AppContextType {
   patients: Patient[];
-  setPatients: React.Dispatch<React.SetStateAction<any>>;
+  setPatients: React.Dispatch<React.SetStateAction<Patient[]>>;
   diagnoses: Diagnose[];
-  setDiagnoses: React.Dispatch<React.SetStateAction<any>>;
+  setDiagnoses: React.Dispatch<React.SetStateAction<Diagnose[]>>;
+  errorMessage: string;
+  setErrorMessage: React.Dispatch<React.SetStateAction<string>>;
 }
 
 const AppContext = createContext<AppContextType>({
@@ -16,6 +18,8 @@ const AppContext = createContext<AppContextType>({
   setPatients: () => {},
   diagnoses: [],
   setDiagnoses: () => {},
+  errorMessage: "",
+  setErrorMessage: () => {},
 });
 
 interface AppProviderProps {
@@ -25,6 +29,7 @@ interface AppProviderProps {
 const AppProvider = ({ children }: AppProviderProps) => {
   const [patients, setPatients] = useState<Patient[]>([]);
   const [diagnoses, setDiagnoses] = useState<Diagnose[]>([]);
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   useEffect(() => {
     const fetchPatientList = async (): Promise<void> => {
@@ -42,7 +47,14 @@ const AppProvider = ({ children }: AppProviderProps) => {
 
   return (
     <AppContext.Provider
-      value={{ patients, setPatients, diagnoses, setDiagnoses }}
+      value={{
+        patients,
+        setPatients,
+        diagnoses,
+        setDiagnoses,
+        errorMessage,
+        setErrorMessage,
+      }}
     >
       {children}
     </AppContext.Provider>

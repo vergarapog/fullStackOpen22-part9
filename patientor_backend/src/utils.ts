@@ -166,28 +166,28 @@ export const toNewPatientLogEntry = (object: unknown): LogEntryWithoutId => {
 };
 
 const parseDescription = (description: unknown): string => {
-  if (!isString(description)) {
+  if (description === "" || !isString(description)) {
     throw new Error("Invalid or missing description " + description);
   }
   return description;
 };
 
 const parseDate = (date: unknown): string => {
-  if (!isString(date)) {
+  if (date === "" || !isString(date)) {
     throw new Error("Invalid or missing date " + date);
   }
   return date;
 };
 
 const parseSpecialist = (specialist: unknown): string => {
-  if (!isString(specialist)) {
+  if (specialist === "" || !isString(specialist)) {
     throw new Error("Invalid or missing specialist " + specialist);
   }
   return specialist;
 };
 
 const parseEmployerName = (employerName: unknown): string => {
-  if (!isString(employerName)) {
+  if (employerName === "" || !isString(employerName)) {
     throw new Error("Invalid or missing employerName " + employerName);
   }
   return employerName;
@@ -201,9 +201,14 @@ const parseDischarge = (
   }
 
   if ("date" in discharge && "criteria" in discharge) {
-    if (!isString(discharge.date) || !isString(discharge.criteria)) {
+    if (
+      discharge.date === "" ||
+      discharge.criteria === "" ||
+      !isString(discharge.date) ||
+      !isString(discharge.criteria)
+    ) {
       throw new Error(
-        "Invalid or missing  properties of discharge: " + discharge
+        "Invalid or missing properties of discharge: " + discharge
       );
     }
     return { date: discharge.date, criteria: discharge.criteria };
