@@ -124,7 +124,7 @@ const CreateEntryButton: React.FC<Props> = ({ singlePatient }) => {
         </HospitalEntryForm>
       )}
       {entryType === "OccupationalHealthcare" && (
-        <OccupationalEntryForm>
+        <OccupationalEntryForm handleSubmit={handleSubmit}>
           <CancelButton entryType={entryType} setEntryType={setEntryType} />
         </OccupationalEntryForm>
       )}

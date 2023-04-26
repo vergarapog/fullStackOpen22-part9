@@ -13,10 +13,11 @@ const initialValues: OccupationalHealthFormValues = {
 };
 
 interface Props {
+  handleSubmit: (newEntry: OccupationalHealthFormValues) => Promise<void>;
   children: React.ReactNode;
 }
 
-const OccupationalEntryForm = ({ children }: Props) => {
+const OccupationalEntryForm = ({ handleSubmit, children }: Props) => {
   const [values, setValues] =
     useState<OccupationalHealthFormValues>(initialValues);
 
@@ -35,13 +36,18 @@ const OccupationalEntryForm = ({ children }: Props) => {
         ...values,
         sickLeave: { ...values.sickLeave, endDate: value },
       });
+    } else if (name === "diagnosisCodes") {
+      const diagnosisCodesArray = value.split(",");
+      setValues({ ...values, diagnosisCodes: diagnosisCodesArray });
     } else {
       setValues({ ...values, [name]: value });
     }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    handleSubmit(values);
+
     console.log(values); // do something with form values
   };
 
@@ -50,7 +56,7 @@ const OccupationalEntryForm = ({ children }: Props) => {
       <h2 className="my-2 text-2xl font-semibold">
         New Occupational Healthcare Entry
       </h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmitForm}>
         <div className="mb-4">
           <label
             htmlFor="description"
