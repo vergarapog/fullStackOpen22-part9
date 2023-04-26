@@ -21,7 +21,7 @@ const SinglePatientPage = ({
   singlePatient,
   diagnoses,
 }: SinglePatientPageProps) => {
-  const { id, name, gender, ssn, occupation, entries } = singlePatient || {};
+  const { name, gender, ssn, occupation, entries } = singlePatient || {};
 
   return singlePatient ? (
     <div className="pb-6">

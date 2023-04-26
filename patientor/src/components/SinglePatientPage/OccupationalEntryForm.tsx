@@ -1,13 +1,6 @@
 import { useState } from "react";
 
-interface OccupationalHealthFormValues {
-  description: string;
-  date: string;
-  specialist: string;
-  employerName: string;
-  diagnosisCodes: string[];
-  sickLeave: { startDate: string; endDate: string };
-}
+import { OccupationalHealthFormValues } from "../../types";
 
 const initialValues: OccupationalHealthFormValues = {
   description: "",
@@ -16,6 +9,7 @@ const initialValues: OccupationalHealthFormValues = {
   employerName: "",
   diagnosisCodes: [],
   sickLeave: { startDate: "", endDate: "" },
+  type: "OccupationalHealthcare",
 };
 
 interface Props {
@@ -130,7 +124,7 @@ const OccupationalEntryForm = ({ children }: Props) => {
             <input
               type="text"
               name="startDate"
-              value={values.sickLeave.startDate}
+              value={values.sickLeave?.startDate}
               onChange={handleChange}
               className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
             />
@@ -145,7 +139,7 @@ const OccupationalEntryForm = ({ children }: Props) => {
             <input
               type="text"
               name="endDate"
-              value={values.sickLeave.endDate}
+              value={values.sickLeave?.endDate}
               onChange={handleChange}
               className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
             />

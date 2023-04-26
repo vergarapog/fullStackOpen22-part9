@@ -3,7 +3,7 @@ import HealthCheckEntryForm from "./HealthCheckEntryForm";
 import HospitalEntryForm from "./HospitalEntryForm";
 import OccupationalEntryForm from "./OccupationalEntryForm";
 import patientService from "../../services/patients";
-import { HospitalFormValues, Patient } from "../../types";
+import { FormValues, Patient } from "../../types";
 import { useGlobalContext } from "../../context";
 import axios from "axios";
 
@@ -32,7 +32,7 @@ const CreateEntryButton: React.FC<Props> = ({ singlePatient }) => {
     setShowSubButtons(false);
   };
 
-  const handleSubmit = async (newEntry: HospitalFormValues) => {
+  const handleSubmit = async (newEntry: FormValues) => {
     try {
       const { id } = singlePatient as Patient;
       const addedEntry = await patientService.addPatientLogEntry(newEntry, id);
