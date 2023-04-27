@@ -6,6 +6,7 @@ import patientService from "../../services/patients";
 import { FormValues, Patient } from "../../types";
 import { useGlobalContext } from "../../context";
 import axios from "axios";
+import ErrorMessage from "../shared/ErrorMessage";
 
 type Props = {
   singlePatient: Patient | undefined;
@@ -118,6 +119,7 @@ const CreateEntryButton: React.FC<Props> = ({ singlePatient }) => {
           </button>
         </div>
       </div>
+      <ErrorMessage />
       {entryType === "Hospital" && (
         <HospitalEntryForm handleSubmit={handleSubmit}>
           <CancelButton entryType={entryType} setEntryType={setEntryType} />
@@ -129,7 +131,7 @@ const CreateEntryButton: React.FC<Props> = ({ singlePatient }) => {
         </OccupationalEntryForm>
       )}
       {entryType === "HealthCheck" && (
-        <HealthCheckEntryForm>
+        <HealthCheckEntryForm handleSubmit={handleSubmit}>
           <CancelButton entryType={entryType} setEntryType={setEntryType} />
         </HealthCheckEntryForm>
       )}

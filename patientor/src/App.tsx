@@ -3,7 +3,6 @@ import { Button, Divider, Container, Typography } from "@mui/material";
 
 import PatientListPage from "./components/PatientListPage";
 import SinglePatientPage from "./components/SinglePatientPage";
-import ErrorMessage from "./components/shared/ErrorMessage";
 
 import { useGlobalContext } from "./context";
 
@@ -20,10 +19,9 @@ const App = () => {
   return (
     <div className="App">
       <Container>
-        <Typography variant="h3" style={{ marginBottom: "0.5em" }}>
-          Patientor
-        </Typography>
-        <ErrorMessage />
+        <div className="bg-black text-white flex justify-center  mt-4 mb-10 rounded-xl py-3">
+          <Typography variant="h4">Patientor</Typography>
+        </div>
         <Button component={Link} to="/" variant="contained" color="primary">
           Home
         </Button>

@@ -1,44 +1,48 @@
 import { useState } from "react";
 
-interface HealthCheckFormValues {
-  description: string;
-  date: string;
-  specialist: string;
-  healthCheckRating: string;
-  diagnosisCodes: string[];
-}
+import { HealthCheckFormValues, HealthCheckRating } from "../../types";
 
 const initialValues: HealthCheckFormValues = {
   description: "",
   date: "",
   specialist: "",
-  healthCheckRating: "",
+  healthCheckRating: HealthCheckRating.Healthy,
   diagnosisCodes: [],
+  type: "HealthCheck",
 };
 
 interface Props {
+  handleSubmit: (newEntry: HealthCheckFormValues) => Promise<void>;
   children: React.ReactNode;
 }
 
-const HealthCheckEntryForm = ({ children }: Props) => {
+const HealthCheckEntryForm = ({ handleSubmit, children }: Props) => {
   const [values, setValues] = useState<HealthCheckFormValues>(initialValues);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setValues({ ...values, [name]: value });
+
+    if (name === "diagnosisCodes") {
+      const diagnosisCodesArray = value.split(",");
+      setValues({ ...values, diagnosisCodes: diagnosisCodesArray });
+    } else {
+      setValues({ ...values, [name]: value });
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    handleSubmit(values);
+
     console.log(values); // do something with form values
   };
 
   return (
     <div className="border p-4">
       <h2 className="my-2 text-2xl font-semibold">New HealthCheck Entry</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmitForm}>
         <div className="mb-4">
           <label
             htmlFor="description"
