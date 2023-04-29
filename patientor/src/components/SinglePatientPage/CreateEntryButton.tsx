@@ -18,7 +18,7 @@ const CreateEntryButton: React.FC<Props> = ({ singlePatient }) => {
   const { patients, setPatients, setErrorMessage } = useGlobalContext();
 
   const [showSubButtons, setShowSubButtons] = useState(false);
-  const [entryType, setEntryType] = useState<EntryType>(null);
+  const [entryType, setEntryType] = useState<EntryType>("Hospital");
 
   const handleMouseEnter = () => {
     setShowSubButtons(true);

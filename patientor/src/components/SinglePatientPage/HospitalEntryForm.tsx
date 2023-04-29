@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 import { HospitalFormValues } from "../../types";
+import Select from "./Select";
 
 const initialValues: HospitalFormValues = {
   description: "",
@@ -46,7 +47,7 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
   };
 
   return (
-    <div className="border p-4">
+    <div tabIndex={0} className="border p-4  focus:border-blue-400">
       <h2 className="my-2 text-2xl font-semibold">New Hospital Entry</h2>
       <form onSubmit={handleSubmitForm}>
         <div className="mb-4">
@@ -72,7 +73,7 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
             Date
           </label>
           <input
-            type="text"
+            type="date"
             name="date"
             value={values.date}
             onChange={handleChange}
@@ -104,11 +105,11 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
               Date
             </label>
             <input
-              type="text"
+              type="date"
               name="dischargeDate"
               value={values.discharge.date}
               onChange={handleChange}
-              className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+              className="w-36 px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
             />
           </div>
           <div className="mb-4">
@@ -135,14 +136,48 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
           >
             Diagnosis codes
           </label>
-          <input
-            type="text"
-            name="diagnosisCodes"
-            value={values.diagnosisCodes}
-            onChange={handleChange}
-            className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          />
+
+          <select multiple>
+            <option value="M24.2">Disorder of ligament</option>
+            <option value="M51.2">
+              Other specified intervertebral disc displacement
+            </option>
+            <option value="S03.5">
+              Sprain and strain of joints and ligaments of other and unspecified
+              parts of head
+            </option>
+            <option value="J10.1">
+              Influenza with other respiratory manifestations, other influenza
+              virus codeentified
+            </option>
+            <option value="J06.9">
+              Acute upper respiratory infection, unspecified
+            </option>
+            <option value="Z57.1">Occupational exposure to radiation</option>
+            <option value="N30.0">Acute cystitis</option>
+            <option value="H54.7">Unspecified visual loss</option>
+            <option value="J03.0">Streptococcal tonsillitis</option>
+            <option value="L60.1">Onycholysis</option>
+            <option value="Z74.3">Need for continuous supervision</option>
+            <option value="L20">Atopic dermatitis</option>
+            <option value="F43.2">Adjustment disorders</option>
+            <option value="S62.5">Fracture of thumb</option>
+            <option value="H35.29">Other proliferative retinopathy</option>
+          </select>
         </div>
+
+        <Select
+          options={options}
+          value={{
+            label: "",
+            value: "",
+          }}
+          onChange={function (
+            value: { label: string; value: string } | undefined
+          ): void {
+            throw new Error("Function not implemented.");
+          }}
+        />
 
         <div className="space-x-2">
           {children}
@@ -157,5 +192,23 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
     </div>
   );
 };
+
+const options = [
+  { label: "First", value: 1 },
+  { label: "Second", value: 2 },
+  { label: "Third", value: 3 },
+  { label: "Fourth", value: 4 },
+  { label: "Fifth", value: 5 },
+  { label: "First", value: 1 },
+  { label: "Second", value: 2 },
+  { label: "Third", value: 3 },
+  { label: "Fourth", value: 4 },
+  { label: "Fifth", value: 5 },
+  { label: "First", value: 1 },
+  { label: "Second", value: 2 },
+  { label: "Third", value: 3 },
+  { label: "Fourth", value: 4 },
+  { label: "Fifth", value: 5 },
+];
 
 export default HospitalEntryForm;
