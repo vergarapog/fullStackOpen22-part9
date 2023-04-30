@@ -19,6 +19,9 @@ interface Props {
 
 const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
   const [values, setValues] = useState<HospitalFormValues>(initialValues);
+  const [selectValue, setSelectValue] = useState<
+    (typeof options)[0] | undefined
+  >(options[0]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -129,54 +132,10 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
           </div>
         </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="diagnosisCodes"
-            className="block mb-2 font-bold text-gray-700"
-          >
-            Diagnosis codes
-          </label>
-
-          <select multiple>
-            <option value="M24.2">Disorder of ligament</option>
-            <option value="M51.2">
-              Other specified intervertebral disc displacement
-            </option>
-            <option value="S03.5">
-              Sprain and strain of joints and ligaments of other and unspecified
-              parts of head
-            </option>
-            <option value="J10.1">
-              Influenza with other respiratory manifestations, other influenza
-              virus codeentified
-            </option>
-            <option value="J06.9">
-              Acute upper respiratory infection, unspecified
-            </option>
-            <option value="Z57.1">Occupational exposure to radiation</option>
-            <option value="N30.0">Acute cystitis</option>
-            <option value="H54.7">Unspecified visual loss</option>
-            <option value="J03.0">Streptococcal tonsillitis</option>
-            <option value="L60.1">Onycholysis</option>
-            <option value="Z74.3">Need for continuous supervision</option>
-            <option value="L20">Atopic dermatitis</option>
-            <option value="F43.2">Adjustment disorders</option>
-            <option value="S62.5">Fracture of thumb</option>
-            <option value="H35.29">Other proliferative retinopathy</option>
-          </select>
-        </div>
-
         <Select
           options={options}
-          value={{
-            label: "",
-            value: "",
-          }}
-          onChange={function (
-            value: { label: string; value: string } | undefined
-          ): void {
-            throw new Error("Function not implemented.");
-          }}
+          value={selectValue}
+          onChange={(o) => setSelectValue(o)}
         />
 
         <div className="space-x-2">
@@ -194,16 +153,6 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
 };
 
 const options = [
-  { label: "First", value: 1 },
-  { label: "Second", value: 2 },
-  { label: "Third", value: 3 },
-  { label: "Fourth", value: 4 },
-  { label: "Fifth", value: 5 },
-  { label: "First", value: 1 },
-  { label: "Second", value: 2 },
-  { label: "Third", value: 3 },
-  { label: "Fourth", value: 4 },
-  { label: "Fifth", value: 5 },
   { label: "First", value: 1 },
   { label: "Second", value: 2 },
   { label: "Third", value: 3 },
