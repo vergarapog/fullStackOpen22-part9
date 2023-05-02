@@ -23,6 +23,9 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
   const [selectValue, setSelectValue] = useState<SelectOption | undefined>(
     options[0]
   );
+  const [selectValue2, setSelectValue2] = useState<SelectOption[]>([
+    options[0],
+  ]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -137,6 +140,13 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
           options={options}
           value={selectValue}
           onChange={(o) => setSelectValue(o)}
+        />
+
+        <Select
+          multiple={true}
+          options={options}
+          value={selectValue2}
+          onChange={(o) => setSelectValue2(o)}
         />
 
         <div className="space-x-2">

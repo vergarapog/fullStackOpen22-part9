@@ -26,7 +26,15 @@ const Select = ({ multiple, value, onChange, options }: SelectProps) => {
 
   const selectOption = (option: SelectOption) => {
     if (multiple) {
-      onChange([...value, option]);
+      if (value.includes(option)) {
+        onChange(
+          value.filter((v) => {
+            return v !== option;
+          })
+        );
+      } else {
+        onChange([...value, option]);
+      }
     } else {
       onChange(option);
     }
