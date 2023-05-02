@@ -68,3 +68,8 @@ export type FormValues =
   | HospitalFormValues
   | OccupationalHealthFormValues
   | HealthCheckFormValues;
+
+export type SelectOption = {
+  label: string;
+  value: any;
+};

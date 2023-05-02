@@ -2,6 +2,7 @@ import { useState } from "react";
 
 import { HospitalFormValues } from "../../types";
 import Select from "./Select";
+import { SelectOption } from "../../types";
 
 const initialValues: HospitalFormValues = {
   description: "",
@@ -19,9 +20,9 @@ interface Props {
 
 const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
   const [values, setValues] = useState<HospitalFormValues>(initialValues);
-  const [selectValue, setSelectValue] = useState<
-    (typeof options)[0] | undefined
-  >(options[0]);
+  const [selectValue, setSelectValue] = useState<SelectOption | undefined>(
+    options[0]
+  );
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

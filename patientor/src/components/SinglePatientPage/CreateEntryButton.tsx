@@ -18,7 +18,7 @@ const CreateEntryButton: React.FC<Props> = ({ singlePatient }) => {
   const { patients, setPatients, setErrorMessage } = useGlobalContext();
 
   const [showSubButtons, setShowSubButtons] = useState(false);
-  const [entryType, setEntryType] = useState<EntryType>("Hospital");
+  const [entryType, setEntryType] = useState<EntryType>("Hospital"); //testing for multi select, remove later
 
   const handleMouseEnter = () => {
     setShowSubButtons(true);

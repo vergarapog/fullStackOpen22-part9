@@ -1,26 +1,71 @@
 import { useState } from "react";
+import { SelectOption } from "../../types";
 
-type SelectOption = {
-  label: string;
-  value: any;
-};
+interface MultipleSelectProps {
+  multiple: true;
+  value: SelectOption[];
+  onChange: (value: SelectOption[]) => void;
+}
 
-interface SelectProps {
-  options: SelectOption[];
+interface SingleSelectProps {
+  multiple?: false;
   value?: SelectOption;
   onChange: (value: SelectOption | undefined) => void;
 }
 
-const Select = ({ value, onChange, options }: SelectProps) => {
+type SelectProps = {
+  options: SelectOption[];
+} & (MultipleSelectProps | SingleSelectProps);
+
+const Select = ({ multiple, value, onChange, options }: SelectProps) => {
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
+
+  const clearOptions = () => {
+    multiple ? onChange([]) : onChange(undefined);
+  };
+
+  const selectOption = (option: SelectOption) => {
+    if (multiple) {
+      onChange([...value, option]);
+    } else {
+      onChange(option);
+    }
+  };
+
+  const isOptionSelected = (option: SelectOption) => {
+    if (multiple) {
+      return value.includes(option);
+    } else {
+      return value === option;
+    }
+  };
+
   return (
     <div
       tabIndex={0}
       className="flex items-center relative w-80 outline outline-gray-200 focus:outline-blue-400 p-4 min-h-min rounded my-4 gap-2"
-      onClick={() => setIsSelectOpen(!isSelectOpen)}
+      onClick={() => setIsSelectOpen((prev) => !prev)}
+      onBlur={() => setIsSelectOpen(false)}
     >
-      <span className="grow">{value?.label}</span>
-      <button className="text-gray-500 focus:text-gray-950 hover:text-gray-950 cursor-pointer text-2xl">
+      <span className="grow">
+        {multiple
+          ? value.map((options) => {
+              return (
+                <ul>
+                  <li>{options.label}</li>
+                </ul>
+              );
+            })
+          : value?.label}
+      </span>
+      <button
+        type="button"
+        className="text-gray-500 focus:text-gray-950 hover:text-gray-950 cursor-pointer text-2xl"
+        onClick={(e) => {
+          e.stopPropagation();
+          clearOptions();
+        }}
+      >
         &times;
       </button>
       <div className="bg-gray-500 self-stretch w-[0.05rem]"></div>
@@ -40,7 +85,16 @@ const Select = ({ value, onChange, options }: SelectProps) => {
           return (
             <li
               key={option.label}
-              className="py-1 px-2 cursor-pointer hover:bg-blue-200 selection:bg-blue-400 selection:text-white"
+              className={`py-1 px-2 cursor-pointer   selection:text-white ${
+                isOptionSelected(option)
+                  ? "bg-blue-500 text-white"
+                  : "hover:bg-blue-200"
+              }`}
+              onClick={(e) => {
+                e.stopPropagation();
+                selectOption(option);
+                setIsSelectOpen(false);
+              }}
             >
               {option.label}
             </li>
