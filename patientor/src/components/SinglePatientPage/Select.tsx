@@ -56,15 +56,32 @@ const Select = ({ multiple, value, onChange, options }: SelectProps) => {
       onBlur={() => setIsSelectOpen(false)}
     >
       <span className="grow">
-        {multiple
-          ? value.map((options) => {
+        {multiple ? (
+          <ul className="flex space-x-1">
+            {value.map((option) => {
               return (
-                <ul>
-                  <li>{options.label}</li>
-                </ul>
+                <li
+                  key={option.value}
+                  className="flex items-center space-x-1 px-1 border border-gray-300"
+                >
+                  <div>{option.label}</div>
+                  <button
+                    type="button"
+                    className="text-gray-500 focus:text-gray-950 hover:text-gray-950 cursor-pointer text-xl"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      selectOption(option);
+                    }}
+                  >
+                    &times;
+                  </button>
+                </li>
               );
-            })
-          : value?.label}
+            })}
+          </ul>
+        ) : (
+          value?.label
+        )}
       </span>
       <button
         type="button"
