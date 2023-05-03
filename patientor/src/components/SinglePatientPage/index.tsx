@@ -54,7 +54,7 @@ const SinglePatientPage = ({
       )}
     </div>
   ) : (
-    <div>Patient not found</div>
+    <div>Loading..</div>
   );
 };
 

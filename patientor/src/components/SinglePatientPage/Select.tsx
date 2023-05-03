@@ -20,6 +20,8 @@ type SelectProps = {
 const Select = ({ multiple, value, onChange, options }: SelectProps) => {
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
+  console.log(value);
+
   const clearOptions = () => {
     multiple ? onChange([]) : onChange(undefined);
   };
@@ -42,11 +44,16 @@ const Select = ({ multiple, value, onChange, options }: SelectProps) => {
 
   const isOptionSelected = (option: SelectOption) => {
     if (multiple) {
+      console.log(value, option);
       return value.includes(option);
     } else {
       return value === option;
     }
   };
+
+  if (!options || !value) {
+    return <div>Loading</div>;
+  }
 
   return (
     <div
@@ -57,17 +64,17 @@ const Select = ({ multiple, value, onChange, options }: SelectProps) => {
     >
       <span className="grow">
         {multiple ? (
-          <ul className="flex space-x-1">
+          <ul className="flex gap-2 flex-wrap">
             {value.map((option) => {
               return (
                 <li
-                  key={option.value}
-                  className="flex items-center space-x-1 px-1 border border-gray-300"
+                  key={option.label}
+                  className="flex items-center space-x-1 px-1 border border-gray-300 cursor-pointer"
                 >
-                  <div>{option.label}</div>
+                  <div>{option?.label}</div>
                   <button
                     type="button"
-                    className="text-gray-500 focus:text-gray-950 hover:text-gray-950 cursor-pointer text-xl"
+                    className="text-gray-500 focus:text-red-500 hover:text-red-500 cursor-pointer text-2xl"
                     onClick={(e) => {
                       e.stopPropagation();
                       selectOption(option);
@@ -85,7 +92,7 @@ const Select = ({ multiple, value, onChange, options }: SelectProps) => {
       </span>
       <button
         type="button"
-        className="text-gray-500 focus:text-gray-950 hover:text-gray-950 cursor-pointer text-2xl"
+        className="text-gray-500 focus:text-red-500 hover:text-red-500 cursor-pointer text-2xl"
         onClick={(e) => {
           e.stopPropagation();
           clearOptions();
@@ -121,7 +128,7 @@ const Select = ({ multiple, value, onChange, options }: SelectProps) => {
                 setIsSelectOpen(false);
               }}
             >
-              {option.label}
+              {option?.label}
             </li>
           );
         })}

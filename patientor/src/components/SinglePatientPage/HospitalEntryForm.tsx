@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { HospitalFormValues } from "../../types";
 import Select from "./Select";
 import { SelectOption } from "../../types";
+import { useGlobalContext } from "../../context";
 
 const initialValues: HospitalFormValues = {
   description: "",
@@ -19,13 +20,24 @@ interface Props {
 }
 
 const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
+  const { diagnoses } = useGlobalContext();
+
   const [values, setValues] = useState<HospitalFormValues>(initialValues);
-  const [selectValue, setSelectValue] = useState<SelectOption | undefined>(
-    options[0]
-  );
-  const [selectValue2, setSelectValue2] = useState<SelectOption[]>([
-    options[0],
-  ]);
+
+  const [selectOptions, setSelectOptions] = useState<SelectOption[]>([]);
+  const [selectValue, setSelectValue] = useState<SelectOption[]>([]);
+
+  useEffect(() => {
+    if (diagnoses.length > 0) {
+      const diagnosesAsSelectOption: SelectOption[] = diagnoses.map(
+        (diagnose) => {
+          return { label: diagnose.code, value: diagnose.code };
+        }
+      );
+      setSelectOptions(diagnosesAsSelectOption);
+      setSelectValue([diagnosesAsSelectOption[0]]);
+    }
+  }, [diagnoses]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -137,16 +149,10 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
         </div>
 
         <Select
-          options={options}
+          multiple={true}
+          options={selectOptions}
           value={selectValue}
           onChange={(o) => setSelectValue(o)}
-        />
-
-        <Select
-          multiple={true}
-          options={options}
-          value={selectValue2}
-          onChange={(o) => setSelectValue2(o)}
         />
 
         <div className="space-x-2">
@@ -162,13 +168,5 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
     </div>
   );
 };
-
-const options = [
-  { label: "First", value: 1 },
-  { label: "Second", value: 2 },
-  { label: "Third", value: 3 },
-  { label: "Fourth", value: 4 },
-  { label: "Fifth", value: 5 },
-];
 
 export default HospitalEntryForm;
