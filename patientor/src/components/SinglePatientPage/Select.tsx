@@ -20,8 +20,6 @@ type SelectProps = {
 const Select = ({ multiple, value, onChange, options }: SelectProps) => {
   const [isSelectOpen, setIsSelectOpen] = useState<boolean>(false);
 
-  console.log(value);
-
   const clearOptions = () => {
     multiple ? onChange([]) : onChange(undefined);
   };
@@ -44,7 +42,6 @@ const Select = ({ multiple, value, onChange, options }: SelectProps) => {
 
   const isOptionSelected = (option: SelectOption) => {
     if (multiple) {
-      console.log(value, option);
       return value.includes(option);
     } else {
       return value === option;

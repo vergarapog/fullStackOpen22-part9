@@ -51,9 +51,6 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
         ...values,
         discharge: { ...values.discharge, criteria: value },
       });
-    } else if (name === "diagnosisCodes") {
-      const diagnosisCodesArray = value.split(",");
-      setValues({ ...values, diagnosisCodes: diagnosisCodesArray });
     } else {
       setValues({ ...values, [name]: value });
     }
@@ -61,8 +58,14 @@ const HospitalEntryForm = ({ handleSubmit, children }: Props) => {
 
   const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleSubmit(values);
-    console.log(values); // do something with form values
+
+    //get diagnosesCodes as string from Array of SelectValues useState
+    const selectValuesAsDiagnoseCodes = selectValue.map((val) => {
+      return val.value;
+    });
+
+    handleSubmit({ ...values, diagnosisCodes: selectValuesAsDiagnoseCodes });
+    console.log({ ...values, diagnosisCodes: selectValuesAsDiagnoseCodes }); // do something with form values
   };
 
   return (
