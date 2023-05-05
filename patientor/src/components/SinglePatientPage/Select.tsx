@@ -55,7 +55,7 @@ const Select = ({ multiple, value, onChange, options }: SelectProps) => {
   return (
     <div
       tabIndex={0}
-      className="flex items-center relative w-80 outline outline-gray-200 focus:outline-blue-400 p-4 min-h-min rounded my-4 gap-2"
+      className="flex items-center relative w-[450px] outline outline-gray-200 focus:outline-blue-400 p-4 min-h-min rounded my-4 gap-2"
       onClick={() => setIsSelectOpen((prev) => !prev)}
       onBlur={() => setIsSelectOpen(false)}
     >
