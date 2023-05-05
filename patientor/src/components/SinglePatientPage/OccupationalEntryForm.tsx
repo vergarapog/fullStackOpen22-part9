@@ -1,6 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { OccupationalHealthFormValues } from "../../types";
+import Select from "./Select";
+import { SelectOption } from "../../types";
+import { useGlobalContext } from "../../context";
 
 const initialValues: OccupationalHealthFormValues = {
   description: "",
@@ -18,8 +21,25 @@ interface Props {
 }
 
 const OccupationalEntryForm = ({ handleSubmit, children }: Props) => {
+  const { diagnoses } = useGlobalContext();
+
   const [values, setValues] =
     useState<OccupationalHealthFormValues>(initialValues);
+
+  const [selectOptions, setSelectOptions] = useState<SelectOption[]>([]);
+  const [selectValue, setSelectValue] = useState<SelectOption[]>([]);
+
+  useEffect(() => {
+    if (diagnoses.length > 0) {
+      const diagnosesAsSelectOption: SelectOption[] = diagnoses.map(
+        (diagnose) => {
+          return { label: diagnose.code, value: diagnose.code };
+        }
+      );
+      setSelectOptions(diagnosesAsSelectOption);
+      setSelectValue([diagnosesAsSelectOption[0]]);
+    }
+  }, [diagnoses]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -46,9 +66,13 @@ const OccupationalEntryForm = ({ handleSubmit, children }: Props) => {
 
   const handleSubmitForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    handleSubmit(values);
+    //get diagnosesCodes as string from Array of SelectValues useState
+    const selectValuesAsDiagnoseCodes = selectValue.map((val) => {
+      return val.value;
+    });
 
-    console.log(values); // do something with form values
+    handleSubmit({ ...values, diagnosisCodes: selectValuesAsDiagnoseCodes });
+    console.log({ ...values, diagnosisCodes: selectValuesAsDiagnoseCodes }); // do something with form values
   };
 
   return (
@@ -80,7 +104,7 @@ const OccupationalEntryForm = ({ handleSubmit, children }: Props) => {
             Date
           </label>
           <input
-            type="text"
+            type="date"
             name="date"
             value={values.date}
             onChange={handleChange}
@@ -128,7 +152,7 @@ const OccupationalEntryForm = ({ handleSubmit, children }: Props) => {
               Start Date
             </label>
             <input
-              type="text"
+              type="date"
               name="startDate"
               value={values.sickLeave?.startDate}
               onChange={handleChange}
@@ -143,7 +167,7 @@ const OccupationalEntryForm = ({ handleSubmit, children }: Props) => {
               End Date
             </label>
             <input
-              type="text"
+              type="date"
               name="endDate"
               value={values.sickLeave?.endDate}
               onChange={handleChange}
@@ -152,21 +176,12 @@ const OccupationalEntryForm = ({ handleSubmit, children }: Props) => {
           </div>
         </div>
 
-        <div className="mb-4">
-          <label
-            htmlFor="diagnosisCodes"
-            className="block mb-2 font-bold text-gray-700"
-          >
-            Diagnosis codes
-          </label>
-          <input
-            type="text"
-            name="diagnosisCodes"
-            value={values.diagnosisCodes}
-            onChange={handleChange}
-            className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-          />
-        </div>
+        <Select
+          multiple={true}
+          options={selectOptions}
+          value={selectValue}
+          onChange={(o) => setSelectValue(o)}
+        />
 
         <div className="space-x-2">
           {children}
