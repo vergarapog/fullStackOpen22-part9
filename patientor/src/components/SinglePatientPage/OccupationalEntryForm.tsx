@@ -37,7 +37,6 @@ const OccupationalEntryForm = ({ handleSubmit, children }: Props) => {
         }
       );
       setSelectOptions(diagnosesAsSelectOption);
-      setSelectValue([diagnosesAsSelectOption[0]]);
     }
   }, [diagnoses]);
 
