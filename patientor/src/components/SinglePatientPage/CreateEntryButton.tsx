@@ -18,7 +18,7 @@ const CreateEntryButton: React.FC<Props> = ({ singlePatient }) => {
   const { patients, setPatients, setErrorMessage } = useGlobalContext();
 
   const [showSubButtons, setShowSubButtons] = useState(false);
-  const [entryType, setEntryType] = useState<EntryType>("Hospital"); //testing for multi select, remove later
+  const [entryType, setEntryType] = useState<EntryType>(null); //testing for multi select, remove later
 
   const handleMouseEnter = () => {
     setShowSubButtons(true);
@@ -78,7 +78,6 @@ const CreateEntryButton: React.FC<Props> = ({ singlePatient }) => {
   return (
     <div className={`relative transition-all `}>
       <div
-        onMouseLeave={handleMouseLeave}
         className={`w-max my-3 ${
           showSubButtons ? "bg-gray-100 rounded-lg pr-5 pt-2 pb-2  shadow" : ""
         }`}

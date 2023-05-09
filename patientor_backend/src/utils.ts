@@ -281,7 +281,6 @@ const parseHealthCheckRating = (
 ): HealthCheckRating => {
   if (
     healthCheckRating === "" ||
-    !isString(healthCheckRating) ||
     !isHealthCheckRating(Number(healthCheckRating))
   ) {
     throw new Error(

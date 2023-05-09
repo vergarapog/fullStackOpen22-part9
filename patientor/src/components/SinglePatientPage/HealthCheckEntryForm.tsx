@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { HealthCheckFormValues, HealthCheckRating } from "../../types";
+import { HealthCheckFormValues } from "../../types";
 
 import Select from "./Select";
 import { SelectOption } from "../../types";
@@ -10,7 +10,7 @@ const initialValues: HealthCheckFormValues = {
   description: "",
   date: "",
   specialist: "",
-  healthCheckRating: HealthCheckRating.Healthy,
+  healthCheckRating: 0,
   diagnosisCodes: [],
   type: "HealthCheck",
 };
@@ -120,6 +120,28 @@ const HealthCheckEntryForm = ({ handleSubmit, children }: Props) => {
             onChange={handleChange}
             className="w-full px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
           />
+        </div>
+
+        <div className="mb-4">
+          <label
+            htmlFor="healthCheckRating"
+            className="block mb-2 font-bold text-gray-700"
+          >
+            Healthcheck Rating
+          </label>
+          <div className="flex w-40 px-3 py-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline">
+            <select
+              className="w-40"
+              name="healthCheckRating"
+              value={values.healthCheckRating}
+              onChange={handleChange}
+            >
+              <option value="0">0 - Healthy</option>
+              <option value="1">1 - Low Risk</option>
+              <option value="2">2 - High Risk</option>
+              <option value="3">3 - Critical Risk</option>
+            </select>
+          </div>
         </div>
 
         <Select
